@@ -1,9 +1,9 @@
 package com.example.admin.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,34 +13,31 @@ import java.io.IOException;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "HelloWorldActivity";
+public class Main2Activity extends AppCompatActivity {
     private TextView textView;
     private Button button;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate execute");
-        this.textView = (TextView)findViewById(R.id.abc);
-        this.button=(Button)findViewById(R.id.jxx) ;
+        setContentView(R.layout.activity_main2);
+        this.textView = (TextView)findViewById(R.id.textView2);
+        this.button = (Button)findViewById(R.id.button);
+
         this.button.setOnClickListener((v)->{
 
-                startActivity(new Intent(MainActivity.this,Main2Activity.class));
+            startActivity(new Intent(Main2Activity.this,MainActivity.class));
 
         });
-//        this.button.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public  void onClick(View v){
-//                startActivity(new Intent(MainActivity.this,Main2Activity.class));
-//            }
+
+//        this.button.setOnClickListener((v)->{
+//
+//            startActivity(new Intent(MainActivity.this,Main2Activity.class));
+//
 //        });
 
-        String weatherId = "CN101020200";
-
-        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=102b365ce560434fbb06a5268e492069";
+        String weatherUrl ="http://guolin.tech/api/china";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onResponse(okhttp3.Call call, Response response) throws IOException {
@@ -49,9 +46,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         textView.setText(responseText);
-                   }
-               });
-
+                    }
+                });
             }
 
             @Override
@@ -59,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-}
 
+            }
+
+}
