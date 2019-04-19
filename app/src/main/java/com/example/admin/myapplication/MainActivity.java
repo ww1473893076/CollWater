@@ -18,11 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "HelloWorldActivity";
     private TextView textView;
     private Button button;
+    private Log log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        int pid = intent.getIntExtra("pid",0);
+
+        log.i("我们接收到了id",""+pid);
         Log.d(TAG, "onCreate execute");
         this.textView = (TextView)findViewById(R.id.abc);
         this.button=(Button)findViewById(R.id.jxx) ;
