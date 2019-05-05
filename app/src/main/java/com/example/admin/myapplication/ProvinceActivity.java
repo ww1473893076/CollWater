@@ -1,6 +1,5 @@
 package com.example.admin.myapplication;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ import java.util.List;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Main2Activity extends AppCompatActivity {
+public class ProvinceActivity extends AppCompatActivity {
     private TextView textView;
     private Button button;
     private ListView listview;
@@ -46,18 +45,18 @@ public class Main2Activity extends AppCompatActivity {
         this.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("点击了哪一个",""+position+Main2Activity.this.pids[position] + ":"+Main2Activity.this.data[position]);
-                Intent intent = new Intent(Main2Activity.this,MainActivity.class);
-                intent.putExtra("pid",Main2Activity.this.pids[position]);
+                Log.i("点击了哪一个",""+position+ProvinceActivity.this.pids[position] + ":"+ProvinceActivity.this.data[position]);
+                Intent intent = new Intent(ProvinceActivity.this,CityActivity.class);
+                intent.putExtra("pid",ProvinceActivity.this.pids[position]);
                 startActivity(intent);
             }
         });
         this.button.setOnClickListener((v) -> {
-            startActivity(new Intent(Main2Activity.this, MainActivity.class));
+            startActivity(new Intent(ProvinceActivity.this, CityActivity.class));
         });
 //        this.button.setOnClickListener((v)->{
 //
-//            startActivity(new Intent(MainActivity.this,Main2Activity.class));
+//            startActivity(new Intent(CityActivity.this,ProvinceActivity.class));
 //
 //        });
         String weatherUrl = "http://guolin.tech/api/china";
@@ -70,7 +69,8 @@ public class Main2Activity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        textView.setText(responseText);
+
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
