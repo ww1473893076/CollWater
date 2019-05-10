@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,13 +26,14 @@ public class ProvinceActivity extends AppCompatActivity {
     public static final String CITY = "city";
     public static final String COUNTY = "county";
     //当前的层级：province，city,county
+
     private String currentlevel =PROVINCE;//city
     private int provinceId = 0;//当前选中的省id
     private int cityId=0;
     private int weatherId=0;
-    private List<Integer> pids = new ArrayList<>();
-    private List<String> data = new ArrayList<>();
-    private List<String> weatherIds=new ArrayList<>();
+    private List<Integer> areaIdList = new ArrayList<>();
+    private List<String> areaNameList = new ArrayList<>();
+    private List<String> areaWeatherIds=new ArrayList<>();
     private ListView listview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +41,21 @@ public class ProvinceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         this.listview = (ListView) findViewById(R.id.listview);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, areaNameList);
         listview.setAdapter(adapter);
         this.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("点击了哪一个", "" + position + ":" + ProvinceActivity.this.pids.get(position) + ":" + ProvinceActivity.this.data.get(position));
+                Log.i("点击了哪一个", "" + position + ":" + ProvinceActivity.this.areaIdList.get(position) + ":" + ProvinceActivity.this.areaNameList.get(position));
 
                 if(currentlevel== PROVINCE){
                     currentlevel = CITY;
-                    provinceId = ProvinceActivity.this.pids.get(position);
+                    provinceId = ProvinceActivity.this.areaIdList.get(position);
                 }else if(currentlevel==CITY){
                     currentlevel = COUNTY;
-                    cityId = ProvinceActivity.this.pids.get(position);
+                    cityId = ProvinceActivity.this.areaIdList.get(position);
                 }else if(currentlevel==COUNTY){
-                    String weatherId=ProvinceActivity.this.weatherIds.get(position);
+                    String weatherId=ProvinceActivity.this.areaWeatherIds.get(position);
 
                     Intent intent= new Intent(ProvinceActivity.this,WeatherActivity.class);
                     intent.putExtra("wid",weatherId);
@@ -94,18 +93,18 @@ public class ProvinceActivity extends AppCompatActivity {
     }
     private void parseJSONObject(String responseText) {
         JSONArray jsonArray = null;
-        this.data.clear();
-        this.pids.clear();
-        this.weatherIds.clear();
+        this.areaNameList.clear();
+        this.areaIdList.clear();
+        this.areaWeatherIds.clear();
         try {
             jsonArray = new JSONArray(responseText);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(i);
-                this.data.add(jsonObject.getString("name"));
-                this.pids.add(jsonObject.getInt("id"));
+                this.areaNameList.add(jsonObject.getString("name"));
+                this.areaIdList.add(jsonObject.getInt("id"));
                 if(jsonObject.has("weather_id")){
-                    this.weatherIds.add(jsonObject.getString("weather_id"));
+                    this.areaWeatherIds.add(jsonObject.getString("weather_id"));
                 }
             }
         } catch (JSONException e) {
