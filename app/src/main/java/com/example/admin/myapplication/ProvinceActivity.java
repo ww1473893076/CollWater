@@ -76,7 +76,7 @@ public class ProvinceActivity extends AppCompatActivity {
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String responseText = response.body().string();
+                      final String responseText = response.body().string();
                 parseJSONObject(responseText);
                 runOnUiThread(new Runnable() {
                     @Override
